@@ -44,7 +44,7 @@
 </script>
     
 <div class="flex min-h-screen min-w-screen flex-col items-center justify-center bg-slate-100">
-	<div class="max-w-lg min-w-lg bg-sky-950 rounded-4xl p-10 flex flex-col justify-between">
+	<div class="max-w-lg min-w-lg bg-beagreen rounded-4xl p-10 flex flex-col justify-between">
 	  <form method="POST" use:enhance class="flex flex-col space-y-6">	
 		<label>
 			<span class="text-slate-200">
