@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { z } from 'zod';
-	import { setError, setMessage, superForm } from 'sveltekit-superforms';
+	import { superForm } from 'sveltekit-superforms';
 	import { zod } from 'sveltekit-superforms/adapters';
-	import "tailwindcss";
   
 	const dummyLoginData = {
 	  email: 'testmail@test.de',
@@ -30,43 +29,36 @@
 		validators: zod(schema),
 		onUpdate({ form }) {
 		  if (form.valid) {
-			console.log('form validaiton');
 			if (
 			  form.data.email === dummyLoginData.email &&
 			  form.data.password === dummyLoginData.password
 			) {
 			  console.log('Daten sind OK');
-			  setMessage(form, 'Login erfolgreich!');
 			} else {
 			  console.log('Falsche E-Mail-Adresse oder Passwort');
-			  setError(form, 'email', 'Falsche E-Mail-Adresse oder Passwort');
 			}
 		  }
 		},
 	  }
 	);
-
 </script>
     
-  <!-- {#if $message}
-	<h3 >{$message}</h3>
-  {/if} -->
-
-  <div class="flex min-h-screen min-w-screen flex-col items-center justify-center bg-slate-100">
-	<div class="max-w-lg min-w-lg bg-sky-950 rounded-4xl p-10">
-	  <form method="POST" use:enhance class="flex flex-col space-y-6">
-		
+<div class="flex min-h-screen min-w-screen flex-col items-center justify-center bg-slate-100">
+	<div class="max-w-lg min-w-lg bg-sky-950 rounded-4xl p-10 flex flex-col justify-between">
+	  <form method="POST" use:enhance class="flex flex-col space-y-6">	
 		<label>
 			<span class="text-slate-200">
 				E-Mail
 			</span>
 			<input
-			  name="email"
-			  aria-invalid="{$errors.email ? 'true' : undefined}"
-			  bind:value="{$form.email}"
-			  {...$constraints.email}
-			  class="w-full invalid:border-pink-500 invalid:text-pink-600 rounded-xl"
-			/>
+				name="email"
+				aria-invalid="{$errors.email ? 'true' : undefined}"
+				bind:value="{$form.email}"
+				{...$constraints.email}
+				placeholder="you@example.com"
+				class="w-full rounded-xl text-black 
+					{$errors.email ? 'border-pink-500 text-pink-600' : 'border-slate-300'}"
+				/>
 			{#if $errors.email}
 			  <span class="text-pink-600">{$errors.email}</span>
 			{/if}
@@ -82,15 +74,16 @@
 			  bind:value="{$form.password}"
 			  aria-invalid="{$errors.password ? 'true' : undefined}"
 			  {...$constraints.password}
-			  class="w-full invalid:border-pink-500 invalid:text-pink-600 rounded-xl text-black"
+			  class="w-full rounded-xl text-black 
+			  {$errors.email ? 'border-pink-500 text-pink-600' : 'border-slate-300'}"
 			/>
 			{#if $errors.password}
 			  <span class="text-pink-600">{$errors.password}</span>
 			{/if}
 		</label>
-  
-		<button class="bg-sky-500 hover:bg-sky-700 p-2 rounded-xl" type="submit">Login</button>
+		<button class="cursor-pointer bg-sky-500 hover:bg-sky-700 min-w-24 p-2 rounded-xl self-center" type="submit">Login</button>
 	  </form>
 	</div>
-  </div>
+</div>
+
   
