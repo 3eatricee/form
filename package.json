@@ -38,6 +38,7 @@
 		]
 	},
 	"dependencies": {
+		"svelte-forms": "^2.3.1",
 		"zod": "^3.24.2"
 	}
 }
