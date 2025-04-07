@@ -2,7 +2,6 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
-
 @theme {
-    --color-beagreen: #92997e
-  }
+  --color-beagreen: #92997e;
+}
