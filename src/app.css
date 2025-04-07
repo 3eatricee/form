@@ -9,5 +9,10 @@
   --color-svelte-organge: #FF5E00;
   --color-punk-pink: #D4006C;
 
+  --color-soft-lila: #D4C1EC;
+  --color-medium-lila: #A982D9;
+  --color-dark-lila: #572B8C;
+  --color-beige: #F2DFD7;
+
   --shadow-popover: 0px 7px 12px 3px hsla(var(--dark-10));
 }
