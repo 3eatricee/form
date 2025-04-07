@@ -2,6 +2,12 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
+
 @theme {
-  --color-beagreen: #92997e;
+  --color-bea-green: #92997e;
+  --color-dark-green: #006400;
+  --color-svelte-organge: #FF5E00;
+  --color-punk-pink: #D4006C;
+
+  --shadow-popover: 0px 7px 12px 3px hsla(var(--dark-10));
 }

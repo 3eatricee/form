@@ -9,17 +9,11 @@
 	};
 
 	const schema = z.object({
-		email: z
-			.string()
-			.email('Ungültige E-Mail-Adresse')
-			.min(1, 'E-Mail ist erforderlich'),
+		email: z.string().email('Ungültige E-Mail-Adresse').min(1, 'E-Mail ist erforderlich'),
 		password: z
 			.string()
 			.min(8, 'Passwort muss mindestens 8 Zeichen lang sein')
-			.regex(
-				/[!@#$%^&*(),.?":{}|<>]/,
-				'Passwort muss mindestens ein Sonderzeichen enthalten'
-			),
+			.regex(/[!@#$%^&*(),.?":{}|<>]/, 'Passwort muss mindestens ein Sonderzeichen enthalten'),
 	});
 
 	const { form, errors, constraints, enhance } = superForm(
@@ -32,10 +26,7 @@
 			validators: zod(schema),
 			onUpdate({ form }) {
 				if (form.valid) {
-					if (
-						form.data.email === dummyLoginData.email &&
-						form.data.password === dummyLoginData.password
-					) {
+					if (form.data.email === dummyLoginData.email && form.data.password === dummyLoginData.password) {
 						console.log('Daten sind OK');
 						window.location.href = '/select';
 					} else {
@@ -47,12 +38,8 @@
 	);
 </script>
 
-<div
-	class="flex min-h-screen min-w-screen flex-col items-center justify-center bg-slate-100"
->
-	<div
-		class="bg-beagreen flex max-w-lg min-w-lg flex-col justify-between rounded-4xl p-10"
-	>
+<div class="flex min-h-screen min-w-screen flex-col items-center justify-center bg-slate-100">
+	<div class="bg-bea-green flex max-w-lg min-w-lg flex-col justify-between rounded-4xl p-10">
 		<form method="POST" use:enhance class="flex flex-col space-y-6">
 			<label>
 				<span class="text-slate-200"> E-Mail </span>
@@ -85,9 +72,8 @@
 					<span class="text-pink-600">{$errors.password}</span>
 				{/if}
 			</label>
-			<button
-				class="min-w-24 cursor-pointer self-center rounded-xl bg-sky-500 p-2 hover:bg-sky-700"
-				type="submit">Login</button
+			<button class="min-w-24 cursor-pointer self-center rounded-xl bg-sky-500 p-2 hover:bg-sky-700" type="submit"
+				>Login</button
 			>
 		</form>
 	</div>
