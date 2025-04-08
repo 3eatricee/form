@@ -12,7 +12,34 @@
   --color-soft-lila: #D4C1EC;
   --color-medium-lila: #A982D9;
   --color-dark-lila: #572B8C;
+  --color-login-lila: #9463CF;
   --color-beige: #F2DFD7;
 
   --shadow-popover: 0px 7px 12px 3px hsla(var(--dark-10));
+
+
+  @keyframes fadeOut {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+}
+.fade-out {
+	animation: fadeOut 1s ease-in-out forwards;
+}
+.fade-in-up {
+  animation: fadeInUp 1s ease-out forwards;
 }

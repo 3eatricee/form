@@ -28,7 +28,15 @@
 				if (form.valid) {
 					if (form.data.email === dummyLoginData.email && form.data.password === dummyLoginData.password) {
 						console.log('Daten sind OK');
-						window.location.href = '/select';
+
+						const fadeOutElement = document.getElementById('formContainer');
+						if (fadeOutElement) {
+							fadeOutElement.classList.add('opacity-0', 'transition-opacity', 'duration-1000');
+						}
+
+						setTimeout(() => {
+							window.location.href = '/select';
+						}, 1000);
 					} else {
 						console.log('Falsche E-Mail-Adresse oder Passwort');
 					}
@@ -41,7 +49,10 @@
 <div
 	class="from-medium-lila via-soft-lila flex min-h-screen min-w-screen items-center justify-center bg-gradient-to-br to-pink-200"
 >
-	<div class="w-full max-w-md transform rounded-3xl bg-white p-8 shadow-lg">
+	<div
+		id="formContainer"
+		class="w-full max-w-md transform rounded-3xl bg-white p-8 shadow-lg transition-opacity duration-1000"
+	>
 		<h2 class="mb-6 text-center text-3xl font-bold text-gray-800">Login</h2>
 		<form method="POST" use:enhance class="flex flex-col space-y-6">
 			<label class="flex flex-col">
@@ -52,7 +63,7 @@
 					bind:value={$form.email}
 					{...$constraints.email}
 					placeholder="you@example.com"
-					class="rounded-xl border-2 border-gray-300 p-3 text-black transition-all duration-300 ease-in-out focus:ring-2 focus:ring-sky-500 focus:outline-none
+					class="focus:ring-medium-lila rounded-xl border-2 border-gray-300 p-3 text-black transition-all duration-300 ease-in-out focus:ring-2 focus:outline-none
 						{$errors.email ? 'border-pink-500 text-pink-600' : 'border-gray-300'}"
 				/>
 				{#if $errors.email}
@@ -68,7 +79,7 @@
 					bind:value={$form.password}
 					aria-invalid={$errors.password ? 'true' : undefined}
 					{...$constraints.password}
-					class="rounded-xl border-2 border-gray-300 p-3 text-black transition-all duration-300 ease-in-out focus:ring-2 focus:ring-sky-500 focus:outline-none
+					class="focus:ring-medium-lila rounded-xl border-2 border-gray-300 p-3 text-black transition-all duration-300 ease-in-out focus:ring-2 focus:outline-none
 						{$errors.password ? 'border-pink-500 text-pink-600' : 'border-gray-300'}"
 				/>
 				{#if $errors.password}
@@ -77,17 +88,11 @@
 			</label>
 
 			<button
-				class="bg-medium-lila hover:bg-dark-lila mt-4 w-full transform cursor-pointer rounded-xl py-3 font-semibold text-white transition-all duration-300 ease-in-out hover:scale-105"
+				class="bg-medium-lila hover:bg-login-lila mt-4 w-full transform cursor-pointer rounded-xl py-3 font-semibold text-white transition-all duration-300 ease-in-out hover:scale-105"
 				type="submit"
 			>
 				Login
 			</button>
 		</form>
-
-		{#if $errors.email || $errors.password}
-			<div class="mt-4 text-center text-sm text-pink-600">
-				<p>Bitte korrigiere deine Eingaben.</p>
-			</div>
-		{/if}
 	</div>
 </div>
