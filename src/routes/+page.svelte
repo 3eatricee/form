@@ -28,7 +28,15 @@
 				if (form.valid) {
 					if (form.data.email === dummyLoginData.email && form.data.password === dummyLoginData.password) {
 						console.log('Daten sind OK');
-						window.location.href = '/select';
+
+						const fadeOutElement = document.getElementById('formContainer');
+						if (fadeOutElement) {
+							fadeOutElement.classList.add('opacity-0', 'transition-opacity', 'duration-1000');
+						}
+
+						setTimeout(() => {
+							window.location.href = '/select';
+						}, 1000);
 					} else {
 						console.log('Falsche E-Mail-Adresse oder Passwort');
 					}
@@ -38,43 +46,53 @@
 	);
 </script>
 
-<div class="flex min-h-screen min-w-screen flex-col items-center justify-center bg-slate-100">
-	<div class="bg-bea-green flex max-w-lg min-w-lg flex-col justify-between rounded-4xl p-10">
+<div
+	class="from-medium-lila via-soft-lila flex min-h-screen min-w-screen items-center justify-center bg-gradient-to-br to-pink-200"
+>
+	<div
+		id="formContainer"
+		class="w-full max-w-md transform rounded-3xl bg-white p-8 shadow-lg transition-opacity duration-1000"
+	>
+		<h2 class="mb-6 text-center text-3xl font-bold text-gray-800">Login</h2>
 		<form method="POST" use:enhance class="flex flex-col space-y-6">
-			<label>
-				<span class="text-slate-200"> E-Mail </span>
+			<label class="flex flex-col">
+				<span class="mb-2 text-lg text-gray-700">E-Mail</span>
 				<input
 					name="email"
 					aria-invalid={$errors.email ? 'true' : undefined}
 					bind:value={$form.email}
 					{...$constraints.email}
 					placeholder="you@example.com"
-					class="w-full rounded-xl text-black
-					{$errors.email ? 'border-pink-500 text-pink-600' : 'border-slate-300'}"
+					class="focus:ring-medium-lila rounded-xl border-2 border-gray-300 p-3 text-black transition-all duration-300 ease-in-out focus:ring-2 focus:outline-none
+						{$errors.email ? 'border-pink-500 text-pink-600' : 'border-gray-300'}"
 				/>
 				{#if $errors.email}
-					<span class="text-pink-600">{$errors.email}</span>
+					<span class="mt-1 text-sm text-pink-600">{$errors.email}</span>
 				{/if}
 			</label>
 
-			<label>
-				<span class="text-slate-200"> Passwort </span>
+			<label class="flex flex-col">
+				<span class="mb-2 text-lg text-gray-700">Passwort</span>
 				<input
 					type="password"
 					name="password"
 					bind:value={$form.password}
 					aria-invalid={$errors.password ? 'true' : undefined}
 					{...$constraints.password}
-					class="w-full rounded-xl text-black
-			  {$errors.email ? 'border-pink-500 text-pink-600' : 'border-slate-300'}"
+					class="focus:ring-medium-lila rounded-xl border-2 border-gray-300 p-3 text-black transition-all duration-300 ease-in-out focus:ring-2 focus:outline-none
+						{$errors.password ? 'border-pink-500 text-pink-600' : 'border-gray-300'}"
 				/>
 				{#if $errors.password}
-					<span class="text-pink-600">{$errors.password}</span>
+					<span class="mt-1 text-sm text-pink-600">{$errors.password}</span>
 				{/if}
 			</label>
-			<button class="min-w-24 cursor-pointer self-center rounded-xl bg-sky-500 p-2 hover:bg-sky-700" type="submit"
-				>Login</button
+
+			<button
+				class="bg-medium-lila hover:bg-login-lila mt-4 w-full transform cursor-pointer rounded-xl py-3 font-semibold text-white transition-all duration-300 ease-in-out hover:scale-105"
+				type="submit"
 			>
+				Login
+			</button>
 		</form>
 	</div>
 </div>

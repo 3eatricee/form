@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Select } from 'bits-ui';
 	import { CaretDoubleDown, CaretDoubleUp, CaretUpDown, Check, Palette } from 'phosphor-svelte';
-	import { writable, derived } from 'svelte/store'; // writable für Speichern der Auswahl, derived für abgeleitete Werte wie die ausgewählte Farbe und das Label zu berechnen
+	import { writable, derived } from 'svelte/store';
 
 	const themes = [
 		{ value: 'bea-green', label: 'Bea Test Green', color: '#92997e' },
@@ -45,16 +45,19 @@
 	});
 </script>
 
-<div class="w-full, h-full p-10">
-	<div>
+<div
+	class="from-medium-lila via-soft-lila flex h-full h-screen w-full w-screen flex-col space-y-12 bg-gradient-to-br to-pink-200 p-10"
+>
+	<div class="fade-in-up flex flex-col space-y-6 rounded-xl bg-white p-8 shadow-lg">
+		<h2 class="text-center text-2xl font-semibold text-gray-800">Select Theme</h2>
 		<div>
 			<Select.Root type="single" onValueChange={v => value.set(v)} items={themes}>
 				<Select.Trigger
-					class="flex w-72 cursor-pointer items-center justify-between rounded-lg border border-gray-300 p-3 select-none"
+					class="flex w-72 cursor-pointer items-center justify-between rounded-lg border border-gray-300 p-3 transition-all duration-300 ease-in-out select-none hover:border-gray-500"
 					aria-label="Select a theme"
 				>
 					<Palette class="mr-3 text-gray-500" />
-					{$selectedLabel}
+					<span class="font-medium text-gray-700">{$selectedLabel}</span>
 					<CaretUpDown class="ml-auto text-gray-500" />
 				</Select.Trigger>
 				<Select.Portal>
@@ -67,7 +70,7 @@
 						<Select.Viewport class="p-1">
 							{#each themes as theme, i (i + theme.value)}
 								<Select.Item
-									class="rounded-button flex h-10 w-full cursor-pointer items-center rounded-lg py-3 pr-1.5 pl-5 text-sm capitalize outline-hidden select-none hover:bg-gray-100"
+									class="flex h-12 w-full cursor-pointer items-center rounded-lg px-4 py-2 text-sm text-gray-700 capitalize outline-hidden select-none hover:bg-gray-100"
 									value={theme.value}
 									label={theme.label}
 								>
@@ -75,7 +78,7 @@
 										{theme.label}
 										{#if selected}
 											<div class="ml-auto">
-												<Check />
+												<Check class="text-green-500" />
 											</div>
 										{/if}
 									{/snippet}
@@ -90,20 +93,21 @@
 			</Select.Root>
 		</div>
 		<div
-			class="mt-5 mb-5 flex h-48 w-full items-center justify-center rounded-xl"
+			class="mt-5 mb-5 flex h-48 w-full items-center justify-center rounded-xl transition-all duration-300 ease-in-out"
 			style="background-color: {$selectedColor};"
 		>
-			<h1>{$selectedLabel}</h1>
+			<h1 class="font-semibold text-white">{$selectedLabel}</h1>
 		</div>
 	</div>
 
-	<div>
+	<div class="fade-in-up flex flex-col space-y-6 rounded-xl bg-white p-8 shadow-lg">
+		<h2 class="text-center text-2xl font-semibold text-gray-800">Select Multiple Themes</h2>
 		<div>
 			<Select.Root type="multiple" onValueChange={v => multipleValue.set(v)} items={themes}>
 				<Select.Trigger
-					class="flex w-72 cursor-pointer items-center justify-between rounded-lg border border-gray-300 p-3 select-none"
+					class="flex w-72 cursor-pointer items-center justify-between rounded-lg border border-gray-300 p-3 transition-all duration-300 ease-in-out select-none hover:border-gray-500"
 				>
-					{$selectedMultipleLabels}
+					<span class="font-medium text-gray-700">{$selectedMultipleLabels}</span>
 					<CaretUpDown class="ml-auto text-gray-500" />
 				</Select.Trigger>
 				<Select.Portal>
@@ -116,7 +120,7 @@
 						<Select.Viewport class="p-1">
 							{#each themes as theme, i (i + theme.value)}
 								<Select.Item
-									class="rounded-button flex h-10 w-full items-center rounded-lg py-3 pr-1.5 pl-5 text-sm capitalize outline-hidden select-none hover:bg-gray-100"
+									class="flex h-12 w-full cursor-pointer items-center rounded-lg px-4 py-2 text-sm text-gray-700 capitalize outline-hidden select-none hover:bg-gray-100"
 									value={theme.value}
 									label={theme.label}
 								>
@@ -124,7 +128,7 @@
 										{theme.label}
 										{#if selected}
 											<div class="ml-auto">
-												<Check />
+												<Check class="text-green-500" />
 											</div>
 										{/if}
 									{/snippet}
@@ -139,10 +143,10 @@
 			</Select.Root>
 		</div>
 		<div
-			class="mt-5 mb-5 flex h-48 w-full items-center justify-center rounded-xl"
+			class="mt-5 mb-5 flex h-48 w-full items-center justify-center rounded-xl transition-all duration-300 ease-in-out"
 			style="background: {$gradientBackground};"
 		>
-			<h1>{$selectedMultipleLabels}</h1>
+			<h1 class="font-semibold text-white">{$selectedMultipleLabels}</h1>
 		</div>
 	</div>
 </div>
