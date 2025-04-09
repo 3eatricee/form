@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SelectComponent from '../../components/SelectComponent.svelte';
+	import SelectComponent from '$lib/components/SelectComponent.svelte';
 
 	const themes = [
 		{ value: 'bea-green', label: 'Bea Test Green', color: '#92997e' },
@@ -8,45 +8,31 @@
 		{ value: 'punk-pink', label: 'Punk Pink', color: '#D4006C' },
 	];
 
-	let selectedValue: string = '';
-	let selectedMultipleValues: string[] = [];
+	let selectedValue: string = $state('');
+	let selectedMultipleValues: string[] = $state([]);
 
-	const selected = () => {
-		const selectedTheme = themes.find(theme => theme.value === selectedValue);
-		return selectedTheme
-			? { color: selectedTheme.color, label: selectedTheme.label }
-			: { color: '#ffffff', label: 'Select a theme' };
-	};
+	let selected = $derived(
+		themes.find(theme => theme.value === selectedValue) ?? { color: '#ffffff', label: 'Select a theme' }
+	);
 
-	const selectedMultipleColors = () => {
-		const selectedThemes = themes.filter(theme => selectedMultipleValues.includes(theme.value));
-		return selectedThemes.map(theme => theme.color);
-	};
+	let selectedMultipleColors = $derived(
+		themes.filter(theme => selectedMultipleValues.includes(theme.value)).map(theme => theme.color)
+	);
 
-	const gradientBackground = () => {
-		const colors = selectedMultipleColors();
-		if (colors.length === 0) return '';
-		if (colors.length === 1) return `bg-${colors[0]}`;
+	let gradientBackground = $derived.by(() => {
+		const colors = selectedMultipleColors;
+		if (colors.length === 1) return `${colors[0]}`;
 		return `linear-gradient(to right, ${colors.join(', ')})`;
-	};
+	});
 
-	const selectedMultipleLabels = () => {
-		return selectedMultipleValues.length
+	let selectedMultipleLabels = $derived(
+		selectedMultipleValues.length
 			? themes
 					.filter(theme => selectedMultipleValues.includes(theme.value))
 					.map(theme => theme.label)
 					.join(', ')
-			: 'Select min 2 to create a gradient';
-	};
-
-	const minSelectionMessage = () => {
-		return selectedMultipleValues.length < 2 ? 'Please select at least two themes for a gradient' : '';
-	};
-
-	function randomizeThemes() {
-		const randomTheme = themes[Math.floor(Math.random() * themes.length)];
-		selectedValue = randomTheme.value;
-	}
+			: 'Select min 2 themes'
+	);
 </script>
 
 <div
@@ -55,17 +41,20 @@
 	<div class="fade-in-up mx-auto flex min-w-[900px] flex-col space-y-6 rounded-xl bg-white p-8 shadow-lg">
 		<h2 class="text-center text-2xl font-semibold text-gray-800">Select Theme</h2>
 		<div>
-			<SelectComponent type="single" items={themes} bind:selectedValue selectedLabel={selected().label} />
+			<SelectComponent type="single" items={themes} bind:selectedValue selectedLabel={selected.label} />
 		</div>
 		<div
 			class="mt-5 mb-5 flex h-30 w-full items-center justify-center rounded-xl transition-all duration-300 ease-in-out"
-			style="background-color: {selected().color};"
+			style="background-color: {selected.color};"
 		>
-			<h1 class="font-semibold text-white">{selected().label}</h1>
+			<h1 class="font-semibold text-white">{selected.label}</h1>
 		</div>
 		<div class="pt-5">
 			<button
-				on:click={randomizeThemes}
+				onclick={() => {
+					const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+					selectedValue = randomTheme.value;
+				}}
 				class="bg-medium-lila absolute right-4 bottom-4 cursor-pointer rounded-lg px-6 py-2 font-semibold text-white transition-all duration-300 hover:scale-105"
 			>
 				Randomize Theme
@@ -80,15 +69,17 @@
 				type="multiple"
 				items={themes}
 				bind:selectedValue={selectedMultipleValues}
-				selectedLabel={selectedMultipleLabels()}
+				selectedLabel={selectedMultipleLabels}
 			/>
 		</div>
-		<p class="mt-2 text-sm text-pink-500">{minSelectionMessage()}</p>
+		<p class="mt-2 text-sm text-pink-500">
+			{#if selectedMultipleValues.length < 2}Please select at least two themes for a gradient{/if}
+		</p>
 		<div
 			class="mt-5 mb-5 flex h-30 w-full items-center justify-center rounded-xl transition-all duration-300 ease-in-out"
-			style="background: {gradientBackground()};"
+			style="background: {gradientBackground};"
 		>
-			<h1 class="font-semibold text-white">{selectedMultipleLabels()}</h1>
+			<h1 class="font-semibold text-white">{selectedMultipleLabels}</h1>
 		</div>
 	</div>
 </div>

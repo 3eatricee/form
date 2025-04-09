@@ -2,10 +2,14 @@
 	import { Select } from 'bits-ui';
 	import Icon from '@iconify/svelte';
 
-	export let items: { value: string; label: string; color: string; icon?: string }[] = [];
-	export let selectedValue: string | string[] = 'undefined';
-	export let type: 'single' | 'multiple' = 'single';
-	export let selectedLabel: string = '';
+	interface Props {
+		items: { value: string; label: string; color: string }[];
+		selectedValue: string | string[] | undefined;
+		type: 'single' | 'multiple';
+		selectedLabel: string;
+	}
+
+	let { items = [], selectedValue = $bindable(), type = 'single', selectedLabel = '' }: Props = $props();
 </script>
 
 <div>
